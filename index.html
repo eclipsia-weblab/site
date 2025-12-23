@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Eclipsia Creative Lab | Future of Visual Art</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    /* --- VARIABLES & THEME --- */
+    :root {
+      /* PREMIUM DEEP NAVY BACKGROUND */
+      --bg-deep: #040c1f;
+
+      --bg-panel: rgba(10, 20, 40, 0.6);
+      --text-main: #e0e6ed;
+      --text-muted: #8b9bb4;
+
+      /* Neon Palette */
+      --neon-blue: #00f3ff;
+      --neon-pink: #ff0055;
+      --neon-gold: #ffd700;
+
+      /* UI Elements */
+      --holo-border: 1px solid rgba(0, 243, 255, 0.15);
+      --holo-shadow: 0 0 15px rgba(0, 243, 255, 0.1);
+
+      --font-display: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --maxw: 1200px;
+    }
+
+    /* --- RESET & BASE --- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* CLEAN SOLID BACKGROUND */
+    body {
+      background-color: var(--bg-deep);
+      /* #040c1f */
+      background-image: none !important;
+      color: var(--text-main);
+      font-family: var(--font-display);
+      overflow-x: hidden;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+      transition: 0.3s;
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    /* --- TYPOGRAPHY --- */
+    .mono {
+      font-family: 'Courier New', Courier, monospace;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+      color: var(--neon-blue);
+    }
+
+    h1,
+    h2,
+    h3 {
+      font-weight: 300;
+      letter-spacing: -0.02em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #fff 0%, var(--neon-blue) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Red Neon Text Class */
+    .text-neon-red {
+      color: #fff !important;
+      text-shadow:
+        0 0 5px var(--neon-pink),
+        0 0 15px var(--neon-pink),
+        0 0 30px var(--neon-pink);
+    }
+
+    /* --- LAYOUT UTILS --- */
+    .container {
+      max-width: var(--maxw);
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    section {
+      padding: 6rem 0;
+      position: relative;
+    }
+
+    /* --- NAVIGATION --- */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(to bottom, rgba(4, 12, 31, 0.9), transparent);
+      backdrop-filter: blur(5px);
+    }
+
+    /* --- HERO SECTION --- */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* The Interactive Eclipse Container */
+    .hero-eclipse-container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 400px;
+      height: 400px;
+      z-index: -1;
+      pointer-events: auto;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      pointer-events: none;
+    }
+
+    .hero-content>* {
+      pointer-events: auto;
+    }
+
+    .hero h1 {
+      font-size: clamp(3rem, 6vw, 5rem);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+      text-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      margin-bottom: 3rem;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Neon Buttons */
+    .btn-group {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+    }
+
+    .btn {
+      position: relative;
+      padding: 1rem 2.5rem;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+      border: none;
+    }
+
+    /* Main Button */
+    .btn-neon {
+      background: rgba(0, 243, 255, 0.1);
+      border: 1px solid var(--neon-blue);
+      color: var(--neon-blue);
+      box-shadow: 0 0 15px rgba(0, 243, 255, 0.1);
+    }
+
+    .btn-neon::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 243, 255, 0.4), transparent);
+      transition: 0.5s;
+    }
+
+    .btn-neon:hover {
+      background: var(--neon-blue);
+      color: #000;
+      box-shadow: 0 0 40px rgba(0, 243, 255, 0.6);
+      transform: scale(1.05);
+    }
+
+    .btn-neon:hover::before {
+      left: 100%;
+    }
+
+    /* Ghost Button */
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-muted);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--neon-gold);
+      color: var(--neon-gold);
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    }
+
+    /* --- ECLIPSE COMPONENT (CSS Animation Only) --- */
+    .eclipse-wrapper {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .eclipse-orbit {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    /* Data Ring */
+    .eclipse-data-ring {
+      position: absolute;
+      inset: -40px;
+      border: 1px dashed rgba(0, 243, 255, 0.2);
+      border-radius: 50%;
+      animation: spin 60s linear infinite;
+    }
+
+    .eclipse-sun {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle, #fff 0%, var(--neon-blue) 40%, transparent 70%);
+      box-shadow: 0 0 60px var(--neon-blue);
+      opacity: 0;
+      transform: scale(0.8);
+      transition: all 1.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .eclipse-moon {
+      position: absolute;
+      inset: 2px;
+      border-radius: 50%;
+      background: var(--bg-deep);
+      /* Use theme bg color */
+      z-index: 2;
+      box-shadow: inset 0 0 30px rgba(0, 243, 255, 0.2);
+      transition: transform 1.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 1.5s;
+    }
+
+    .eclipse-corona {
+      position: absolute;
+      inset: -10px;
+      border-radius: 50%;
+      background: transparent;
+      box-shadow: 0 0 30px rgba(0, 243, 255, 0.3), inset 0 0 20px rgba(0, 243, 255, 0.1);
+      z-index: 0;
+      transition: 1.5s;
+    }
+
+    /* Eclipse Hover */
+    .eclipse-orbit:hover .eclipse-moon {
+      transform: translate(40%, -40%);
+      opacity: 0;
+    }
+
+    .eclipse-orbit:hover .eclipse-sun {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    .eclipse-orbit:hover .eclipse-corona {
+      box-shadow: 0 0 100px var(--neon-blue), 0 0 200px var(--neon-pink);
+      opacity: 0.8;
+    }
+
+    /* --- MODERN APPROACH SECTION --- */
+    .approach-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .approach-block {
+      margin-bottom: 4rem;
+    }
+
+    .approach-title {
+      font-size: 1.8rem;
+      color: #fff;
+      margin-bottom: 1.5rem;
+      border-left: 3px solid var(--neon-blue);
+      padding-left: 1rem;
+    }
+
+    .approach-text {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      line-height: 1.8;
+      margin-bottom: 1.5rem;
+    }
+
+    .approach-text strong {
+      color: var(--text-main);
+      font-weight: 600;
+    }
+
+    .divider-line {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 0, 85, 0.3), transparent);
+      margin: 4rem 0;
+      width: 100%;
+    }
+
+    /* --- PRICING TITLE --- */
+    .pricing-title {
+      font-size: 2.2rem;
+      margin-top: 0;
+      margin-bottom: 3rem;
+      color: var(--text-main);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 300;
+      text-shadow: none;
+      text-align: center;
+      transition: text-shadow 0.3s ease, color 0.3s ease;
+    }
+
+    .pricing-title:hover {
+      color: var(--text-main);
+      text-shadow: none;
+    }
+
+    /* Hero Text Clean (No Neon) */
+    .hero-text-clean {
+      color: var(--text-main);
+      text-shadow: none;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+    }
+
+    /* --- SERVICES (Holographic Cards) --- */
+    #services {
+      padding-top: 10rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .holo-card {
+      background: var(--bg-panel);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 2.5rem;
+      position: relative;
+      transition: all 0.4s ease;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Holographic Corner Accents */
+    .holo-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 20px;
+      height: 20px;
+      border-top: 2px solid var(--neon-blue);
+      border-left: 2px solid var(--neon-blue);
+      transition: 0.3s;
+      opacity: 0.5;
+    }
+
+    .holo-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 20px;
+      height: 20px;
+      border-bottom: 2px solid var(--neon-blue);
+      border-right: 2px solid var(--neon-blue);
+      transition: 0.3s;
+      opacity: 0.5;
+    }
+
+    .holo-card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 10px 40px rgba(0, 243, 255, 0.15);
+      border-color: rgba(0, 243, 255, 0.3);
+    }
+
+    .holo-card:hover::before,
+    .holo-card:hover::after {
+      width: 100%;
+      height: 100%;
+      opacity: 1;
+    }
+
+    .holo-card h3 {
+      font-size: 1.5rem;
+      margin: 1rem 0;
+      color: #fff;
+    }
+
+    .holo-card p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .card-icon {
+      font-size: 2rem;
+      color: var(--neon-blue);
+      text-shadow: 0 0 15px var(--neon-blue);
+    }
+
+    /* --- STATIC CONTACT (Pulse Effect) --- */
+    #magnetic-contact {
+      display: inline-block;
+      font-size: 2.1rem;
+      font-weight: 300;
+      color: #ffffff;
+      letter-spacing: 0.08em;
+      position: relative;
+      cursor: default;
+      user-select: none;
+    }
+
+    #magnetic-contact.neon-pulse {
+      animation: neon-pulse 0.8s ease-out forwards;
+    }
+
+    @keyframes neon-pulse {
+      0% {
+        text-shadow: 0 0 0 transparent;
+        color: #fff;
+      }
+
+      50% {
+        text-shadow:
+          0 0 10px var(--neon-blue),
+          0 0 20px var(--neon-blue),
+          0 0 40px var(--neon-blue);
+        color: #fff;
+      }
+
+      100% {
+        text-shadow: 0 0 0 transparent;
+        color: #fff;
+      }
+    }
+
+    #magnetic-contact::after {
+      content: '';
+      position: absolute;
+      inset: -30px;
+    }
+
+    /* Contact Links Styles */
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1.6rem;
+      align-items: center;
+      margin-top: 2.8rem;
+      perspective: 800px;
+    }
+
+    .contact-link {
+      font-size: 1.05rem;
+      letter-spacing: 0.05em;
+      transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+      user-select: text;
+      text-decoration: none;
+    }
+
+    /* LinkedIn — blue neon on hover */
+    .contact-link.linkedin {
+      color: var(--neon-blue);
+      opacity: 0.85;
+    }
+
+    .contact-link.linkedin:hover {
+      opacity: 1;
+      text-shadow:
+        0 0 6px var(--neon-blue),
+        0 0 18px var(--neon-blue),
+        0 0 32px rgba(0, 243, 255, 0.6);
+      transform: translateZ(10px);
+    }
+
+    /* Email — completely neutral */
+    .contact-link.email {
+      color: #ffffff;
+      opacity: 0.9;
+      text-shadow: none !important;
+      transform: none !important;
+      transition: none !important;
+      cursor: text;
+    }
+
+    .contact-link.email:hover {
+      color: #ffffff;
+      text-shadow: none;
+      transform: none;
+    }
+
+    /* --- FOOTER --- */
+    footer {
+      padding: 4rem 0;
+      text-align: center;
+      border-top: none;
+      margin-top: 0;
+    }
+
+    .footer-logo {
+      display: block;
+      margin: 0 auto;
+      width: 100px;
+      height: auto;
+      border-radius: 50%;
+      box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+      transition: box-shadow 0.3s ease;
+      animation: logo-pulse 2s ease-in-out infinite alternate;
+    }
+
+    .footer-logo:hover {
+      box-shadow: 0 0 40px rgba(0, 243, 255, 0.8);
+    }
+
+    /* LOGO PULSE ANIMATION */
+    @keyframes logo-pulse {
+      0% {
+        box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+      }
+
+      100% {
+        box-shadow: 0 0 35px rgba(0, 243, 255, 0.6);
+      }
+    }
+
+    /* ANIMATIONS */
+    @keyframes spin {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes fade-in-up {
+      0% {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .loyalty-text {
+      margin-top: 3rem;
+      text-align: center;
+      font-size: 1.25rem;
+      letter-spacing: 0.05em;
+      font-weight: 300;
+      color: #fff;
+      text-shadow: none;
+      opacity: 0;
+      /* Start hidden */
+      animation: fade-in-up 2s ease-out forwards;
+      animation-delay: 1s;
+      /* Subtle delay */
+      max-width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* --- BASE --- */
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      /* Remove default background so canvas at z-index -1 is visible */
+      background-color: transparent;
+      overflow-x: hidden;
+      color: var(--text-main);
+    }
+
+    /* GALAXY BACKGROUND (Canvas) */
+    #galaxy-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+      /* Gradient Base + Central Halo */
+      background: radial-gradient(circle at 60% 40%, rgba(30, 40, 60, 0.4) 0%, rgba(4, 12, 31, 1) 70%), var(--bg-deep);
+    }
+
+    /* ... (rest of typography/layout unchanged) ... */
+
+    /* --- HOLO FIELD (Holo Card Logic for Inputs) --- */
+    /* --- HOLO FIELD (Holo Card Logic with Cursor Glow) --- */
+    .input-holo-field {
+      background: var(--bg-panel);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 0;
+      position: relative;
+      transition: all 0.4s ease;
+      overflow: hidden;
+      display: block;
+    }
+
+    /* Localized Neon Glow Layer - REMOVED YELLOW LIGHT */
+    .input-holo-field::before {
+      content: none;
+    }
+
+    /* Subtle border glow on active - REMOVED YELLOW LIGHT */
+    .input-holo-field:hover,
+    .input-holo-field:focus-within {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* --- CONTACT FORM SECTION --- */
+    .static-contact-title {
+      font-size: 2.2rem;
+      font-weight: 300;
+      color: #ffffff;
+      margin: 0;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: default;
+      position: relative;
+      z-index: 2;
+      transition: text-shadow 0.3s ease, color 0.3s ease;
+    }
+
+    /* Red Neon Glow on Hover */
+    .static-contact-title:hover {
+      text-shadow: none;
+    }
+
+    .contact-form-container {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    /* Message label styling */
+    .form-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-left: 4px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    /* INPUTS (Inside Holo Field) */
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 1rem;
+      color: #fff;
+      font-family: var(--font-display);
+      font-size: 1rem;
+      outline: none;
+      box-sizing: border-box;
+      position: relative;
+      z-index: 1;
+    }
+
+    .form-input::placeholder,
+    .form-textarea::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+      opacity: 1;
+    }
+
+    .form-textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    /* SUBMIT BUTTON (Ghost Style) */
+    .form-submit {
+      margin-top: 1rem;
+      align-self: flex-start;
+      appearance: none;
+      -webkit-appearance: none;
+      background: transparent;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-muted);
+      padding: 0.8rem 2.5rem;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    .form-submit:hover {
+      border-color: var(--neon-gold);
+      color: var(--neon-gold);
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+    }
+
+    @media(max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero-eclipse-container {
+        width: 300px;
+        height: 300px;
+      }
+
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .btn-group {
+        flex-direction: column;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <canvas id="galaxy-bg"></canvas>
+
+  <nav>
+    <!-- Navigation cleaned up: Logo and Menu Removed -->
+  </nav>
+
+  <main>
+    <!-- 1. HERO SECTION -->
+    <section class="hero">
+      <!-- Interactive 3D Eclipse Behind Text -->
+      <div class="hero-eclipse-container">
+        <div class="eclipse-wrapper">
+          <div class="eclipse-orbit" id="heroEclipse">
+            <div class="eclipse-data-ring"></div>
+            <div class="eclipse-corona"></div>
+            <div class="eclipse-sun"></div>
+            <div class="eclipse-moon"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-content container">
+
+        <h1 class="gradient-text">Eclipsia<br>Web Laboratory</h1>
+
+        <p class="hero-text-clean">
+          We Create Exceptional Websites<br>
+          Powered by Vue.js
+        </p>
+
+        <div class="btn-group">
+          <!-- UPDATED BUTTONS with Links -->
+          <a href="#services" class="btn btn-neon">View Pricing</a>
+          <!-- Second button re-enabled as requested -->
+          <a href="#contact" class="btn btn-ghost">Initiate Contact</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. A MODERN APPROACH (NEW SECTION) -->
+    <section class="container" id="approach">
+      <h2 class="pricing-title">A Modern Approach</h2>
+
+      <div class="approach-content">
+        <div class="approach-block">
+          <p class="approach-text">Most websites today are built on CMS platforms that are 15–20 years old. We use
+            modern JavaScript frameworks with server-side rendering (SSR) that deliver high loading speed and smooth
+            user experience.</p>
+          <p class="approach-text">We chose Vue.js for its flexibility and freedom from the limitations of traditional
+            CMS platforms.</p>
+        </div>
+
+        <div class="divider-line"></div>
+
+        <div class="approach-block">
+          <h3 class="approach-title">Why a Website Must Be Fast</h3>
+          <p class="approach-text">With traditional CMS platforms, you often have to choose: either a visually rich
+            design with animations, or fast loading speed.</p>
+          <p class="approach-text">Modern Vue.js architecture with server-side rendering eliminates this compromise. All
+            heavy computations are handled on a powerful server, while the user receives a fully rendered page
+            instantly. The website remains fast regardless of project complexity.</p>
+          <p class="approach-text">Search engines prioritize fast websites by ranking them higher in search results. At
+            the same time, conversion rates increase by 20–30%. This is critical for business: 75% of clicks go to the
+            first page of search results. High website performance means better rankings, more visitors, and increased
+            sales.</p>
+        </div>
+
+        <div class="divider-line"></div>
+
+        <div class="approach-block">
+          <h3 class="approach-title">Indexing and Search Visibility</h3>
+          <p class="approach-text">Search Engine Optimization (SEO) is a set of practices that ensure a website’s
+            visibility in search engines. It includes page structure, clean and correct code, loading speed, content
+            optimization, and overall user experience.</p>
+          <p class="approach-text">Websites built on page builders or traditional CMS platforms often require plugins,
+            additional optimization, and constant adjustments. In contrast, a Vue.js website with SSR is SEO-friendly by
+            default: it loads quickly, has a clear structure, and is easily understood by search engines.</p>
+          <p class="approach-text">Search engines promote high-quality websites. Fast performance and logical page
+            structure directly improve rankings and make the site more convenient for users.</p>
+        </div>
+
+        <div class="divider-line"></div>
+
+        <div class="approach-block">
+          <h3 class="approach-title">No Hidden Costs</h3>
+          <p class="approach-text">CMS platforms and website builders often offer a basic version for free, but full
+            functionality usually requires purchasing themes and plugins. Many of them operate on subscription models,
+            significantly increasing long-term maintenance costs.</p>
+          <p class="approach-text">Our Vue.js websites do not rely on paid plugins or themes. They are built
+            specifically for your needs, and all functionality belongs to you permanently. The only recurring cost is
+            monthly technical maintenance of ¥6,130, of which ¥3,874 is paid directly to the VDS hosting provider where
+            your website is hosted.</p>
+          <p class="approach-text">We may suggest purchasing a paid font to achieve a unique visual identity, but all
+            funds go directly to the font’s creator. High-quality free alternatives are always available if preferred.
+          </p>
+        </div>
+
+        <div class="divider-line"></div>
+
+        <div class="approach-block">
+          <h3 class="approach-title">Technical Maintenance</h3>
+          <p class="approach-text">Search engines favor active websites. Regularly publishing new content, improving
+            structure, and refining functionality has a positive impact on search rankings. Websites without updates
+            have far fewer chances of reaching top positions.</p>
+          <p class="approach-text">In practice, CMS-based websites are often handed over to internal staff after launch
+            — people who are skilled with office software but lack expertise in web development and SEO. This approach
+            frequently damages even well-built websites. Website maintenance should be handled by professionals with the
+            necessary technical knowledge.</p>
+          <p class="approach-text">We work directly with the code, carefully refining every element: tags, content,
+            structure, and multimedia. This provides a real competitive advantage in search visibility.</p>
+          <p class="approach-text">Even existing content requires continuous improvement. Optimizing texts and adding
+            new, well-structured sections attracts visitors and converts them into clients. Maintenance costs remain
+            reasonable, while you can be confident that your website is managed by professionals.</p>
+          <p class="approach-text">Our reputation is built on successful projects. We are genuinely invested in making
+            your website a high-performing tool for customer acquisition and business growth.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. PRICING SECTION -->
+    <section class="container" id="services">
+      <h2 class="pricing-title">Website Development Pricing</h2>
+
+      <div class="grid-3">
+
+        <!-- CARD 1: ~10 PAGES -->
+        <div class="holo-card">
+          <div class="card-icon">10</div>
+          <h3>CORE / Foundation</h3>
+          <div style="font-size: 1.2rem; color: var(--neon-blue); margin-bottom: 1rem;">¥380,000 – ¥580,000</div>
+          <div style="text-align: left;">
+            <p>✓ Website of approximately 10 pages</p>
+            <p>✓ Development using Vue.js with Server-Side Rendering (Nuxt.js) for instant content loading and improved
+              search engine indexing</p>
+            <p>✓ Responsive, cross-browser, semantic layout, ensuring flawless display across desktops, tablets, and
+              mobile devices</p>
+            <p>✓ Comprehensive SEO optimization, including meta tag configuration, proper heading hierarchy, and
+              semantic structure for effective search engine visibility</p>
+            <p>✓ Multilingual support: Japanese / English + additional languages upon request</p>
+            <p>✓ Contact form with email submission (customizable fields available)</p>
+            <p>✓ Multimedia components: galleries, sliders, video players, accordions — optimized for desktop and touch
+              devices</p>
+            <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
+              <strong style="color: #fff;">Technical support — ¥6,130 / month, including:</strong>
+              <ul
+                style="font-size: 0.85rem; padding-left: 1.2rem; color: var(--text-muted); margin-top: 0.5rem; list-style: disc;">
+                <li>Content updates and additions by our specialists (SEO-compliant)</li>
+                <li>Ongoing technical support</li>
+                <li>VDS server (4 CPU cores / 6GB RAM / 40GB NVMe SSD) with scalable performance options</li>
+              </ul>
+            </div>
+          </div>
+          <div class="mono" style="margin-top: 1.5rem; color: var(--neon-gold);">Development timeline: 3–4 weeks</div>
+        </div>
+
+        <!-- CARD 2: ~25 PAGES -->
+        <div class="holo-card">
+          <div class="card-icon">25</div>
+          <h3>BOOST / Acceleration</h3>
+          <div style="font-size: 1.2rem; color: var(--neon-blue); margin-bottom: 1rem;">¥680,000 – ¥980,000</div>
+          <div style="text-align: left;">
+            <p>✓ Website of approximately 25 pages</p>
+            <p>✓ Development using Vue.js with Server-Side Rendering (Nuxt.js) for instant content loading and improved
+              search engine indexing</p>
+            <p>✓ Responsive, cross-browser, semantic layout, ensuring flawless display across desktops, tablets, and
+              mobile devices</p>
+            <p>✓ Comprehensive SEO optimization, including meta tag configuration, proper heading hierarchy, and
+              semantic structure for effective search engine visibility</p>
+            <p>✓ Multilingual support: Japanese / English + additional languages upon request</p>
+            <p>✓ Contact form with email submission (customizable fields available)</p>
+            <p>✓ Multimedia components: galleries, sliders, video players, accordions — fully optimized for desktop and
+              touch devices</p>
+            <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
+              <strong style="color: #fff;">Technical support — ¥6,130 / month, including:</strong>
+              <ul
+                style="font-size: 0.85rem; padding-left: 1.2rem; color: var(--text-muted); margin-top: 0.5rem; list-style: disc;">
+                <li>Content updates and additions by our specialists (SEO-compliant)</li>
+                <li>Ongoing technical support</li>
+                <li>VDS server (4 CPU cores / 6GB RAM / 40GB NVMe SSD) with scalable performance options</li>
+              </ul>
+            </div>
+            <p style="margin-top: 1rem;">✓ Advanced interactive forms, including calculators, multi-step application
+              forms, and quizzes with conditional logic and real-time validation</p>
+            <p>✓ Secure payment system integration with automatic payment status notifications</p>
+            <p>✓ CRM integration for automatic lead transfer and customer database synchronization</p>
+            <p>✓ Integration with third-party APIs and services, including AI-powered solutions for chatbots, workflow
+              automation, and content personalization</p>
+          </div>
+          <div class="mono" style="margin-top: 1.5rem; color: var(--neon-gold);">Development timeline: 6–8 weeks</div>
+        </div>
+
+        <!-- CARD 3: UNLIMITED -->
+        <div class="holo-card">
+          <div class="card-icon">∞ </div>
+          <h3>INFINITY / Custom Scope</h3>
+          <div style="font-size: 1.2rem; color: var(--neon-blue); margin-bottom: 1rem;">From ¥1,500,000</div>
+          <div style="text-align: left;">
+            <p>✓ Unlimited number of pages</p>
+            <p>✓ Development using Vue.js with Server-Side Rendering (Nuxt.js) for instant content loading and improved
+              search engine indexing</p>
+            <p>✓ Responsive, cross-browser, semantic layout, ensuring flawless display across desktops, tablets, and
+              mobile devices</p>
+            <p>✓ Comprehensive SEO optimization, including meta tag configuration, proper heading hierarchy, and
+              semantic structure for effective search engine performance</p>
+            <p>✓ Multilingual support: Japanese / English + additional languages upon request</p>
+            <p>✓ Contact form with email submission (customizable fields available)</p>
+            <p>✓ Multimedia components: galleries, sliders, video players, accordions — fully optimized for desktop and
+              touch devices</p>
+            <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
+              <strong style="color: #fff;">Technical support — ¥6,130 / month, including:</strong>
+              <ul
+                style="font-size: 0.85rem; padding-left: 1.2rem; color: var(--text-muted); margin-top: 0.5rem; list-style: disc;">
+                <li>Content updates and additions by our specialists (SEO-compliant)</li>
+                <li>Ongoing technical support</li>
+                <li>VDS server (4 CPU cores / 6GB RAM / 40GB NVMe SSD) ※ Performance can be scaled as needed</li>
+              </ul>
+            </div>
+            <p style="margin-top: 1rem;">✓ Advanced interactive forms, including calculators, multi-step application
+              flows, and quizzes with conditional logic and real-time validation</p>
+            <p>✓ Secure payment system integration, with protected transaction processing and automatic payment status
+              notifications</p>
+            <p>✓ CRM system integration for automated lead transfer and customer database synchronization</p>
+            <p>✓ Integration with third-party APIs and services, including AI-powered solutions for chatbots, workflow
+              automation, and content personalization</p>
+            <p>✓ Development of product catalogs and e-commerce platforms, including shopping cart functionality,
+              checkout flows, and online payments</p>
+            <p>✓ Advanced product filtering, multi-level filters by parameters, price ranges, and dynamic updates
+              without page reloads</p>
+            <p>✓ Intelligent search functionality, including typo correction, natural language query understanding, and
+              accurate result ranking</p>
+            <p>✓ Smart product recommendation system, personalized and adaptive to user behavior</p>
+          </div>
+          <div class="mono" style="margin-top: 1.5rem; color: var(--neon-gold);">Development timeline: from 8 weeks
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Loyalty Text Micro-Interaction -->
+      <div class="loyalty-text">
+        We value long-term partnerships — returning clients receive a <span class="text-neon-red">15% loyalty
+          discount</span>.
+      </div>
+    </section>
+
+    <!-- ===== CONTACT SECTION WITH FORM ===== -->
+    <section class="container" id="contact" style="padding:6rem 0; position:relative;">
+
+      <div style="text-align: center; margin-bottom: 2rem;">
+        <!-- Clean Static Title -->
+        <h2 class="static-contact-title">Contact</h2>
+      </div>
+
+      <div class="contact-form-container">
+        <form class="contact-form" action="mailto:studio@eclipsia-weblab.com" method="post" enctype="text/plain">
+
+          <div class="form-row">
+            <div class="form-group">
+              <div class="input-holo-field">
+                <input type="text" class="form-input" placeholder="Name">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-holo-field">
+                <input type="text" class="form-input" placeholder="Surname">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <div class="input-holo-field">
+                <input type="email" class="form-input" placeholder="Email">
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="input-holo-field">
+                <input type="tel" class="form-input" placeholder="Phone number">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="input-holo-field">
+              <textarea class="form-textarea" placeholder="Tell us about your project..."></textarea>
+            </div>
+          </div>
+
+          <button type="submit" class="form-submit">Send Message</button>
+        </form>
+      </div>
+
+      <!-- Links below form -->
+      <div class="contact-links" style="margin-top: 4rem;">
+        <a href="https://linkedin.com/in/daria-maksimovich" target="_blank" class="contact-link linkedin">
+          LinkedIn
+        </a>
+      </div>
+    </section>
+    <!-- ===== END CONTACT ===== -->
+
+  </main>
+
+  <footer style="padding:4rem 0; text-align:center;">
+    <!-- ADDED LOGO -->
+    <img src="assets/logo_v12.png" alt="Eclipsia Logo" class="footer-logo">
+  </footer>
+
+  <script>
+
+
+    // Copy to clipboard for email
+
+    // --- INTERACTIVE GALACTIC BACKGROUND ---
+    // --- INTERACTIVE GALACTIC BACKGROUND (Natural Drift + Gentle Bias) ---
+    const canvas = document.getElementById('galaxy-bg');
+    if (canvas) {
+      const ctx = canvas.getContext('2d');
+      let width, height;
+
+      let stars = [];
+      let dustClouds = [];
+
+      let mouseX = 0;
+      let mouseY = 0;
+      // Target bias values based on mouse (Cosmic Wind)
+      let biasX = 0;
+      let biasY = 0;
+
+      // Config
+      const STAR_COUNT = 800;
+      const DUST_COUNT = 3;
+      const BIAS_STRENGTH = 1.5; // Max pixels shift per frame based on mouse
+
+      class Star {
+        constructor() {
+          this.reset(true);
+        }
+
+        reset(initial = false) {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.z = Math.random() * 2 + 0.5; // Depth
+
+          // Reduced size multiplier from 1.5 to 1.1
+          this.size = Math.random() * 1.1 * this.z;
+
+          this.baseOpacity = Math.random() * 0.7 + 0.2;
+
+          // Intrinsic slow drift (random direction)
+          const angle = Math.random() * Math.PI * 2;
+          const speed = Math.random() * 0.05 + 0.01; // Ultra slow drift
+          this.vx = Math.cos(angle) * speed;
+          this.vy = Math.sin(angle) * speed;
+
+          // Color
+          const tints = ['255, 255, 255', '220, 240, 255', '255, 220, 200', '200, 210, 255'];
+          this.color = tints[Math.floor(Math.random() * tints.length)];
+
+          // Twinkle
+          this.twinklePhase = Math.random() * Math.PI * 2;
+          this.twinkleSpeed = Math.random() * 0.005 + 0.002;
+        }
+
+        update() {
+          // 1. Intrinsic Drift
+          this.x += this.vx * this.z;
+          this.y += this.vy * this.z;
+
+          // 2. Mouse Bias (Wind)
+          // The mouse creates a directional force that moves stars safely
+          this.x += biasX * this.z * 0.1;
+          this.y += biasY * this.z * 0.1;
+
+          // Wrap around screen with buffer
+          if (this.x < -50) this.x = width + 50;
+          if (this.x > width + 50) this.x = -50;
+          if (this.y < -50) this.y = height + 50;
+          if (this.y > height + 50) this.y = -50;
+
+          // Twinkle
+          this.twinklePhase += this.twinkleSpeed;
+        }
+
+        draw() {
+          const pulsingOp = this.baseOpacity + Math.sin(this.twinklePhase) * 0.15;
+          const finalOp = Math.max(0, Math.min(1, pulsingOp));
+
+          ctx.fillStyle = `rgba(${this.color}, ${finalOp})`;
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+
+      class CosmicDust {
+        constructor() {
+          this.reset(true);
+        }
+
+        reset(initial) {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.z = 0.2; // Far background
+          this.radius = Math.random() * 300 + 400;
+          this.color = (Math.random() > 0.5) ? '20, 30, 60' : '40, 20, 50';
+          this.vx = (Math.random() - 0.5) * 0.02;
+          this.vy = (Math.random() - 0.5) * 0.02;
+        }
+
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          this.x += biasX * this.z * 0.1;
+          this.y += biasY * this.z * 0.1;
+
+          // Large wrap bounds
+          if (this.x < -this.radius) this.x = width + this.radius;
+          if (this.x > width + this.radius) this.x = -this.radius;
+          if (this.y < -this.radius) this.y = height + this.radius;
+          if (this.y > height + this.radius) this.y = -this.radius;
+        }
+
+        draw() {
+          const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius);
+          gradient.addColorStop(0, `rgba(${this.color}, 0.06)`);
+          gradient.addColorStop(1, `rgba(${this.color}, 0)`);
+
+          ctx.fillStyle = gradient;
+          ctx.fillRect(this.x - this.radius, this.y - this.radius, this.radius * 2, this.radius * 2);
+        }
+      }
+
+      function initGalaxy() {
+        resize();
+        window.addEventListener('resize', resize);
+        window.addEventListener('mousemove', (e) => {
+          // Normalized -1 to 1 based on center
+          const nx = (e.clientX / width) * 2 - 1;
+          const ny = (e.clientY / height) * 2 - 1;
+
+          mouseX = nx;
+          mouseY = ny;
+        });
+
+        stars = [];
+        dustClouds = [];
+
+        for (let i = 0; i < STAR_COUNT; i++) {
+          stars.push(new Star());
+        }
+
+        for (let d = 0; d < DUST_COUNT; d++) {
+          dustClouds.push(new CosmicDust());
+        }
+
+        animateGalaxy();
+      }
+
+      function resize() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+      }
+
+      function animateGalaxy() {
+        // Evaluate "Wind" direction based on mouse position
+        const targetBiasX = -mouseX * BIAS_STRENGTH;
+        const targetBiasY = -mouseY * BIAS_STRENGTH;
+
+        // Smoothly interpolate current bias
+        biasX += (targetBiasX - biasX) * 0.05;
+        biasY += (targetBiasY - biasY) * 0.05;
+
+        ctx.clearRect(0, 0, width, height);
+
+        // Draw Dust
+        ctx.globalCompositeOperation = 'screen';
+        dustClouds.forEach(d => {
+          d.update();
+          d.draw();
+        });
+
+        // Draw Stars
+        ctx.globalCompositeOperation = 'source-over';
+        stars.forEach(s => {
+          s.update();
+          s.draw();
+        });
+
+        requestAnimationFrame(animateGalaxy);
+      }
+
+      initGalaxy();
+    }
+
+
+    // --- COPY TO CLIPBOARD Helper & Email Link ---
+    const emailLink = document.querySelector('.contact-link.email');
+    if (emailLink) {
+      emailLink.addEventListener('click', function () {
+        const email = this.innerText.trim();
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(email).then(() => {
+            showCopiedEffect(this);
+          }).catch(err => fallbackCopy(email, this));
+        } else {
+          fallbackCopy(email, this);
+        }
+      });
+    }
+
+    function fallbackCopy(text, element) {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-9999px";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        showCopiedEffect(element);
+      } catch (err) {
+        console.error('Fallback: Oops, unable to copy', err);
+      }
+      document.body.removeChild(textArea);
+    }
+
+    function showCopiedEffect(element) {
+      const originalText = element.innerText;
+      element.innerText = "Copied!";
+      setTimeout(() => {
+        element.innerText = originalText;
+      }, 2000);
+    }
+
+    // Flower Bloom Effect on Pricing Title
+    const pricingTitle = document.querySelector('.pricing-title');
+    if (pricingTitle) {
+      pricingTitle.addEventListener('click', (e) => {
+        const flowers = ['🌸', '🌹', '🌺', '🌻', '🌼', '🌷', '🥀', '💐'];
+        const rect = pricingTitle.getBoundingClientRect();
+
+        // Spawn multiple flowers
+        for (let i = 0; i < 12; i++) {
+          const flower = document.createElement('div');
+          flower.classList.add('flower-particle');
+          flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+
+          // Random offset from click X
+          const offsetX = (Math.random() - 0.5) * 100;
+          const startX = e.clientX + offsetX;
+          const startY = e.clientY + window.scrollY; // Corrected Y pos
+
+          flower.style.left = startX + 'px';
+          flower.style.top = startY + 'px';
+
+          // Random trajectory variables
+          const tx = (Math.random() - 0.5) * 100 + 'px';
+          const ty = -(50 + Math.random() * 150) + 'px'; // Move up 50-200px
+          const rot = (Math.random() - 0.5) * 90 + 'deg';
+
+          flower.style.setProperty('--tx', tx);
+          flower.style.setProperty('--ty', ty);
+          flower.style.setProperty('--rot', rot);
+
+          document.body.appendChild(flower);
+
+          // Cleanup
+          setTimeout(() => flower.remove(), 1500);
+        }
+      });
+    }
+
+    // CURSOR GLOW EFFECT for Inputs
+    document.querySelectorAll('.input-holo-field').forEach(field => {
+      field.addEventListener('mousemove', (e) => {
+        const rect = field.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        field.style.setProperty('--mouse-x', `${x}px`);
+        field.style.setProperty('--mouse-y', `${y}px`);
+      });
+    });
+
+    // PRICING CARD COPY on Right-Click
+    document.querySelectorAll('.holo-card').forEach(card => {
+      card.addEventListener('contextmenu', async (e) => {
+        e.preventDefault(); // Block default menu
+
+        const text = card.innerText;
+        try {
+          await navigator.clipboard.writeText(text);
+
+          // Visual Feedback: Flash border
+          const originalBorder = card.style.borderColor;
+          const originalShadow = card.style.boxShadow;
+
+          card.style.borderColor = '#fff';
+          card.style.boxShadow = '0 0 30px rgba(255,255,255,0.8)';
+
+          // Show "Copied!" Toast at cursor position
+          const toast = document.createElement('div');
+          toast.textContent = 'Copied!';
+          toast.style.position = 'fixed';
+          toast.style.left = `${e.clientX}px`;
+          toast.style.top = `${e.clientY}px`;
+          toast.style.transform = 'translate(-50%, -150%)';
+          toast.style.background = 'rgba(0, 0, 0, 0.8)';
+          toast.style.color = '#fff';
+          toast.style.padding = '8px 16px';
+          toast.style.borderRadius = '20px';
+          toast.style.border = '1px solid var(--neon-blue)';
+          toast.style.boxShadow = '0 0 15px var(--neon-blue)';
+          toast.style.fontSize = '14px';
+          toast.style.fontWeight = '600';
+          toast.style.zIndex = '9999';
+          toast.style.pointerEvents = 'none';
+          toast.style.opacity = '0';
+          toast.style.transition = 'opacity 0.3s, transform 0.3s';
+
+          document.body.appendChild(toast);
+
+          // Animate In
+          requestAnimationFrame(() => {
+            toast.style.opacity = '1';
+            toast.style.transform = 'translate(-50%, -200%)';
+          });
+
+          // Remove toast after delay
+          setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translate(-50%, -250%)';
+            setTimeout(() => toast.remove(), 300);
+          }, 1500);
+
+          // Revert border after timeout
+          setTimeout(() => {
+            card.style.borderColor = originalBorder;
+            card.style.boxShadow = originalShadow;
+          }, 500);
+
+        } catch (err) {
+          console.error('Failed to copy', err);
+        }
+      });
+    });
+  </script>
+
+</body>
+
+</html>
